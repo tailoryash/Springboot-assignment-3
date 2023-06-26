@@ -77,9 +77,9 @@ public class EmpController {
         try {
             employeeService.addEmployee(emp);
             session.setAttribute("msg", "Employee Data updated Successfully!");
-            log.info("Employee details updated succesfully of this id :" + emp.getId());
+            log.warn("Employee details updated succesfully of this id :" + emp.getId());
         } catch (Exception e) {
-            log.info("Can't update Employee details of this id :" + emp.getId());
+            log.error("Can't update Employee details of this id :" + emp.getId());
         }
         return "redirect:/employees";
     }
