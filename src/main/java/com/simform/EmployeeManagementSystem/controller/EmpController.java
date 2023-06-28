@@ -29,14 +29,10 @@ public class EmpController {
 
     @GetMapping
     public String home(Model model) {
-        try {
-            List<EmpDTO> allEmp = employeeService.getAllEmp().stream().map(employee -> modelMapper.map(employee, EmpDTO.class)).collect(Collectors.toList());
-            model.addAttribute("emp", allEmp);
-            model.addAttribute("employeeService", employeeService);
-            log.info("Employee details fetched succesfully !");
-        } catch (Exception e) {
-            log.error("Not Getting List of Employee.");
-        }
+        List<EmpDTO> allEmp = employeeService.getAllEmp().stream().map(employee -> modelMapper.map(employee, EmpDTO.class)).collect(Collectors.toList());
+        model.addAttribute("emp", allEmp);
+        model.addAttribute("employeeService", employeeService);
+        log.info("Employee details fetched succesfully !");
 
         return "index";
     }
@@ -48,51 +44,32 @@ public class EmpController {
 
     @PostMapping("/register")
     public String empRegister(@ModelAttribute Employee emp, @RequestParam(value = "submitButton") String submitButton, HttpSession session) {
-        System.out.println(emp);
-//        System.out.println(session.getAttribute("msg"));
         if (submitButton != null) session.setAttribute("msg", "Employee Added Successfully !");
-        try {
-            employeeService.addEmployee(emp);
-            log.info("Employee details added succesfully !");
-        } catch (Exception e) {
-            log.error("Invalid users details");
-        }
+        employeeService.addEmployee(emp);
+        log.info("Employee details added succesfully !");
         return "redirect:/employees";
     }
 
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable int id, Model model) {
-        try {
-            Employee empById = employeeService.getEmpById(id);
-            model.addAttribute("emp", empById);
-            log.info("Employee details feteched succesfully for update of this id :" + id);
-        } catch (Exception e) {
-            log.error("Not getting user of id : " + id);
-        }
+        Employee empById = employeeService.getEmpById(id);
+        model.addAttribute("emp", empById);
+        log.info("Employee details feteched succesfully for update of this id :" + id);
         return "edit";
     }
 
     @PostMapping("/update")
     public String updateEmp(@ModelAttribute Employee emp, HttpSession session) {
-        try {
-            employeeService.addEmployee(emp);
-            session.setAttribute("msg", "Employee Data updated Successfully!");
-            log.warn("Employee details updated succesfully of this id :" + emp.getId());
-        } catch (Exception e) {
-            log.error("Can't update Employee details of this id :" + emp.getId());
-        }
+        employeeService.addEmployee(emp);
+        session.setAttribute("msg", "Employee Data updated Successfully!");
+        log.warn("Employee details updated succesfully of this id :" + emp.getId());
         return "redirect:/employees";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteEmp(@PathVariable int id, HttpSession session) {
-        try {
-            employeeService.deleteEmp(id);
-            session.setAttribute("msg", "Employee Data deleted Successfully!");
-            log.info("Employee details deleted successfully of this id :" + id);
-        } catch (Exception e) {
-            log.error("Not getting user of id : " + id);
-        }
+        employeeService.deleteEmp(id);
+        session.setAttribute("msg", "Employee Data deleted Successfully!");
         return "redirect:/employees";
     }
 }
