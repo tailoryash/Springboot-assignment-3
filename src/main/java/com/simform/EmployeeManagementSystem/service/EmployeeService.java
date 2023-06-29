@@ -22,12 +22,20 @@ public class EmployeeService {
     }
 
     public List<Employee> getAllEmp() {
-        List<Employee> employees = employeeRepository.findAll();
+  /*      List<Employee> employees = employeeRepository.findAll();
         if (employees == null) {
             log.error("Not Getting List of Employee.");
             throw new UserNotFoundException();
         } else {
             return employees;
+        }*/
+
+        try{
+            List<Employee> employees = employeeRepository.findAll();
+            return employees;
+        } catch (NoSuchElementException e) {
+            log.error("User not found");
+            throw new UserNotFoundException();
         }
     }
 

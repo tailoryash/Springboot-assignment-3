@@ -1,6 +1,4 @@
 package com.simform.EmployeeManagementSystem.exception;
-
-import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 @ControllerAdvice
